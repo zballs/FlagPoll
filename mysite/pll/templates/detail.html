@@ -1,0 +1,74 @@
+{% extends "header2.html" %}
+
+{% load static %}
+
+
+{% block content %}
+	<h4 style="margin-bottom: 10px">
+	<span {% if poll.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif poll.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up"{% endif %}></span> <span {% if poll.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif poll.result = "Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif poll.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up"{% elif poll.result = "Positive" %} class="glyphicon glyphicon-thumbs-up"{% elif poll.result = "Neutral" %} class="glyphicon glyphicon-question-sign"{% endif %}></span>&nbsp&nbsp{{poll.question}}</h4>
+	<h5><span class="glyphicon glyphicon-list-alt"></span>&nbsp&nbsp{{poll.ballots}}&nbsp{% if poll.ballots = 1 %}ballot{% else %}ballots{% endif %}&nbsp&nbsp&nbsp&nbsp&nbsp{% if message = "Voted" %}<span class="glyphicon glyphicon-check"></span>&nbsp<a href="{% url 'pll:vote' poll.id %}" class="btn">{{message}}</a>{% else %}<span class="glyphicon glyphicon-edit"></span><a href="{% url 'pll:vote' poll.id %}" class="btn" style="margin-bottom:4px;">Vote</a>{% endif %}&nbsp&nbsp&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-comment"></span><a href="{% url 'pll:voice' poll.id %}" class="btn" style="margin-bottom:4px;">Voice</a></h5>
+	<br> 
+	<div>
+		{% for v in voices %}
+			<a href="{% url 'pll:Profile' v.author.id %}" class="btn" style="margin-left:24px;margin-bottom: -8px"><strong>{{v.author}}</strong></a>&nbsp&nbsp<small style="position:relative;font-size: .8em; top: 6px">{{v.pub_date|timesince}}&nbspago</small><br>
+			<div class="voice_field">{{v.opinion}}</div>
+			<button id={{v.id}} class="up" {% if v.uservote = 1 %}style="color:darkseagreen"{% endif %}><span class="glyphicon glyphicon-chevron-up"></span></button><p style="background: transparent;font-size:.8em;"><strong class={{v.id}} id="position_me" style="position:absolute; margin-left: 9px">{{v.updown_votes}}</strong></p><button id={{v.id}} class="down" {% if v.uservote = -1 %}style="color:darkseagreen"{% endif %}><span class="glyphicon glyphicon-chevron-down" id="position_down_arrow"></span></button>
+		{% endfor %}
+	</div>
+	<script type="text/javascript">
+	var height = $(".voice_field").height();
+	document.getElementById("position_me").style.marginTop = height/1.32 + "px";
+	document.getElementById("position_down_arrow").style.marginTop = height - 2 +"px";
+	$(function () {
+		document.getElementById("polls").style.color = "darkseagreen";
+		$(document).on("click",".up",function(){
+			var thisURL = document.URL;
+			var val = $(this).attr("id");
+			$.ajax({
+				type: "POST",
+				url: thisURL,
+				data: {'up_or_down': 1,'primKey':val,csrfmiddlewaretoken: '{{ csrf_token }}'},
+				dataType: "json",
+				success: function(json) {
+					$("."+val).html(json.net_user_votes);
+					if (json.user_vote == 1) {
+						$(".up").css("color","darkseagreen");
+					}
+					if (json.user_vote == 0) {
+						$(".up").css("color","black");
+					}
+					$(".down").css("color","black")
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					window.location.replace('/polls/login')
+				}
+			}); 
+		});
+		$(document).on("click",".down",function(){
+			var thisURL = document.URL;
+			var val = $(this).attr("id");
+			$.ajax({
+				type: "POST",
+				url: thisURL,
+				data: {'up_or_down': 2,'primKey':val, csrfmiddlewaretoken:'{{csrf_token}}'},
+				dataType: "json",
+				success: function(json) {
+					$("."+val).html(json.net_user_votes);
+					if (json.user_vote == -1) {
+						$(".down").css("color","darkseagreen");
+					}
+					if (json.user_vote == 0) {
+						$(".down").css("color","black");
+					}
+					$(".up").css("color","black")
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					window.location.replace('/polls/login')
+				}
+			}); 
+		});
+	});
+
+	</script>
+
+{% endblock %}

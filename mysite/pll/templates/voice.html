@@ -1,0 +1,21 @@
+{% extends "header2.html" %}
+
+{% block content %}
+
+    {% load myfilters %}
+    <h5>{{poll.question}}</h5><br>
+    <form action="" method="post">
+        {% csrf_token %}
+            <div>
+                {% if form.opinion.errors %}<p class="error">{{form.opinion.errors}}</p>{% endif %}
+                <p><span class="glyphicon glyphicon-bullhorn"></span>&nbsp&nbsp<label for="opinion"{% if form.opinion.errors %} class="error"{% endif %}>Voice your opinion</label></p>
+                <p>{{form.opinion|addclass:'voice_opinion'}}</p>
+            </div>
+        <p><input type="submit" class="nice_submit" /></p>
+    </form>
+    <script type="text/javascript">
+    $(function() {
+        document.getElementById("polls").style.color = "darkseagreen";
+    })
+    </script>
+{% endblock %}

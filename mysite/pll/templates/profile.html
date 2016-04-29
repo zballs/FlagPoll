@@ -1,0 +1,33 @@
+{% extends "header2.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-1"></div>
+	<span class="glyphicon glyphicon-user"></span>&nbsp
+	<div class="shadow_header" style="display: inline-block; font-size: 19px">{{this_user.username}}</div>
+	<div style="display: inline-block; position:relative; left: 50px; font-size: 19px">PollPoints&nbsp&nbsp
+		<span class="poll_points">{{user_score}}</span></div>
+	{% if superPollster %} <span class="glyphicon glyphicon-certificate"></span><div class="shadow_header">SuperPollster</div>{% elif pollster %}<span class="glyphicon glyphicon-certificate"></span><div class="shadow_header">Pollster</div>{% endif %}
+	{% if trustedVoice %} <span class="glyphicon glyphicon-bullhorn"></span><div class="shadow_header">TrustedVoice</div>{% elif vocalContributor %} <span class="glyphicon glyphicon-bullhorn"></span><div class="shadow_header">VocalContributor</div>{% endif %}
+	{% if activeVoter %}<div class="shadow_header">ActiveVoter</div>{% endif %}
+</div><br>
+<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-5">
+		<div class="shadow_header" style="font-size: 18px">Polls</div>
+		{% for p in user_polls %}
+			<div class="list_poll">{{p|truncatechars:60}}</div>
+		{% endfor %}
+	</div>
+	<div>
+		<div class="shadow_header" style="font-size: 18px">Voices</div>
+		{% for v in user_voices %}
+			<div class="list_poll">{{v|truncatechars:70}}</div>
+		{% endfor %}
+	</div>
+
+</div>
+
+{% endblock %}	

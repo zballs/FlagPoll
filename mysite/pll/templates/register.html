@@ -1,0 +1,37 @@
+{% extends "header2.html" %}
+{% load myfilters %}
+
+{% block content %}
+	<form action="" method="post">
+		{% csrf_token %}
+		<!--<h4 style=" position: relative; left: 254px; display: inline-block; border: 2px; border-radius: 2px; padding: 8px; text-shadow: 2px 2px 4px lightgray;"><span class="glyphicon glyphicon-list-alt" style="position: relative; top: 2px; color: darkseagreen; font-size: 19px"></span>&nbsp&nbspRegister</h4>-->
+			<div class="login-register">
+				<div>
+					{% if form.username.errors %}<p class="error">{{form.username.errors}}</p>{% endif %}
+					<label for="username"{% if form.username.errors %} class="error"{% endif %} class="reg_label"><span class="glyphicon glyphicon-user"></span>&nbsp&nbsp&nbspUsername</label>
+					<div>{{form.username|addclass:'reg_field'}}</div>
+				</div><br>
+				<div>
+					{% if form.email.errors %}<p class="error">{{form.email.errors}}</p>{% endif %}
+					<label for="email"{% if form.email.errors %} class="error"{% endif %} class="reg_label"><span class="glyphicon glyphicon-envelope"></span>&nbsp&nbsp&nbspEmail</label>
+					<div>{{form.email|addclass:'reg_field'}}</div>
+				</div><br>
+				<div>
+					{% if form.password.errors %}<p class="error">{{form.password.errors}}</p>{% endif %}
+					<label for="password"{% if form.password.errors %} class="error"{% endif %} class="reg_label"><span class="glyphicon glyphicon-lock"></span>&nbsp&nbsp&nbspPassword</label>
+					<div>{{form.password|addclass:'reg_field'}}</div>
+				</div><br>
+				<div>
+					{% if form.password_verification.errors %}<p class="error">{{form.password_verification.errors}}</p>{% endif %}
+					<label for="passwordVerification"{% if form.passwordVerification.errors %} class="error"{% endif %} class="reg_label"><span class="glyphicon glyphicon-ok"></span>&nbsp&nbsp&nbspVerify Password</label>
+					<div>{{form.passwordVerification|addclass:'reg_field'}}</div>
+				</div><br>
+				<p><input type="submit" class="nice_submit" style="position: relative; left: 60px"/></p>
+			</div>
+	</form>
+	<script type="text/javascript">
+	$(function() {
+		document.getElementById("login").style.color = "darkseagreen";
+	})
+	</script>
+{% endblock %}

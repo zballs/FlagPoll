@@ -1,0 +1,22 @@
+{% extends "header2.html" %}
+
+{% block content %}
+    {% load myfilters %}
+    <form action="" method="post" style="position: relative; left: 176px">
+        {% csrf_token %}
+        {% if form.errors %}<p>Please correct the following fields: </p>{% endif %}
+            <div><br>
+                {% if form.question.errors %}<p class="error">{{form.question.errors}}</p>{% endif %}
+                <p>{{form.question|addclass:'create_poll'}}</p>
+            </div><br>
+            <div>
+                {% if form.tag.errors %}<p class="error">{{form.tag.errors}}</p>{% endif %}
+                <p>{{form.tag|addclass:'tag_poll'}}<input type="submit" class="nice_submit" style="display: inline-block; margin-left: 40px;"/></p>
+            </div>
+    </form>
+    <script type="text/javascript">
+    $(function() {
+        document.getElementById("mypoll").style.color = "darkseagreen";
+    })
+    </script>
+{% endblock %}

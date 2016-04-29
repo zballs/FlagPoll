@@ -1,0 +1,40 @@
+{% extends "header.html" %}
+
+{% load static %}
+{% block content %}
+	<div class="polls_container">
+		{% for tag, polls in all_polls %}
+			<div id={{tag}}>
+				{% for p in polls %}
+				<a href="{% url 'pll:detail' p.id %}" class="list_poll active">{{p.question}}</a>&nbsp&nbsp&nbsp<small><span class="glyphicon glyphicon-user" style="position: relative; top: 2px;"></span><a href="{% url 'pll:Profile' p.author.id%}" class="btn" style="margin-bottom: 2px"><small>{{p.author}}</small></a>&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-calendar" style="position: relative; top: 2px;"></span>&nbsp&nbsp<span style="position: relative; top: 2px;">{{p.pub_date | date:"D, N j"}}</span></small><br><br>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+	<script type="text/javascript">
+	$(function () {
+		document.getElementById("polls").style.color = "darkseagreen";
+		$(document).on("click",".tag_list",function(){
+			var thisURL = document.URL;
+			var val = $(this).attr("id");
+			$.ajax({
+				type: "POST",
+				url: thisURL,
+				data: {'tagname': val, csrfmiddlewaretoken: '{{ csrf_token }}'},
+				dataType: "json",
+				success: function(json) {
+					var taglist = json.other_tags;
+					for (i = 0; i < taglist.length; i++) {
+						$("div#"+taglist[i]).hide();
+					}
+					$("div#"+json.tagname).show();
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					window.location.replace('/polls/view')
+				}
+			});
+		});
+	});
+	</script>
+
+{% endblock %}

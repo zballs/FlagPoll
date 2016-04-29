@@ -1,0 +1,26 @@
+{% extends "header2.html" %}
+
+{% block content %}
+	{% load myfilters %}
+	<form action="" method="post">
+		{% csrf_token %}
+		<!--<h4 style=" position: relative; left: 264px; display: inline-block; border: 2px; border-radius: 2px; padding: 8px; text-shadow: 2px 2px 4px lightgray;"><span class="glyphicon glyphicon-log-in" style="position: relative; top: 2px; color: darkseagreen; font-size: 19px"></span>&nbsp&nbspLogin</h4>--><br>
+			<div class="login-register" style="background-color: white">
+					<br>
+					{% if form.username.errors %}<p class="error">{{form.username.errors}}</p>{% endif %}
+					<p><span class="glyphicon glyphicon-user" style="margin-left: 48px"></span>&nbsp<label for="username" class="log_label" {% if form.username.errors %} class="error"{% endif %}><small>Username</small></label></p>
+					<p>{{form.username|addclass:'log_field'}}</p><br>
+					{% if form.password.errors %}<p class="errors">{{form.password.errors}}</p>{% endif %}
+					<p><span class="glyphicon glyphicon-lock" style="margin-left: 48px"></span>&nbsp<label for="password" class="log_label"{% if form.password.errors %} class="error"{% endif %}><small>Password</small></label></p>
+					<p>{{form.password|addclass:'log_field'}}</p><br><br>
+					<p><input type="submit" class="nice_submit" style="position: relative; left: 54px;"/></p><br>
+					<p style="margin-left: 16px">New to polls?<a href="{% url 'pll:ConstituentRegistration' %}" class="btn" style="position: relative; bottom: 2px;">Register Here</a></p>
+			</div>
+	</form>
+	<script type="text/javascript">
+	$(function() {
+		document.getElementById("login").style.color = "darkseagreen";
+		document.getElementById("login").style.;
+	})
+	</script>
+{% endblock %}
