@@ -4,7 +4,7 @@
 {% block content %}
 	<form action="" method="post">
 		{% csrf_token %}
-		<!--<h4 style=" position: relative; left: 254px; display: inline-block; border: 2px; border-radius: 2px; padding: 8px; text-shadow: 2px 2px 4px lightgray;"><span class="glyphicon glyphicon-list-alt" style="position: relative; top: 2px; color: darkseagreen; font-size: 19px"></span>&nbsp&nbspRegister</h4>-->
+		<!--<h4 style=" position: relative; left: 254px; display: inline-block; border: 2px; border-radius: 2px; padding: 8px; text-shadow: 2px 2px 4px lightgray;"><span class="glyphicon glyphicon-list-alt" style="position: relative; top: 2px; color: darkseagreen; font-size: 19px"></span>&nbsp&nbspRegister</h4>--><br>
 			<div class="login-register">
 				<div>
 					{% if form.username.errors %}<p class="error">{{form.username.errors}}</p>{% endif %}
@@ -31,7 +31,7 @@
 	</form>
 	<script type="text/javascript">
 	$(function() {
-		document.getElementById("login").style.color = "darkseagreen";
+		document.getElementById("register").style.color = "darkseagreen";
 	})
 	</script>
 {% endblock %}

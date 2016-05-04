@@ -58,13 +58,15 @@
 			  		<li><a href="/polls/logout/" style="font-size:15px; display:inline" class="btn"><span class="glyphicon glyphicon-log-out"></span>&nbspLogout</a></li>
 			  	{% else %}
 			  		<li><a href="/polls/login/" style="font-size:15px; display:inline; text-align: right" class="btn" id="login"><span class="glyphicon glyphicon-log-in"></span>&nbsp&nbspLogin</a></li>
+			  		<li><a href="/polls/register/" style="font-size:15px;' display:inline; text-align: right" class="btn" id="register"><span class="glyphicon glyphicon-list-alt" style="position: relative; top: 2px"></span>&nbsp&nbspRegister</a></li>
 			  	{% endif %}
 			</ol> <!--well bs-sidebar affix--><!--col-sm-2-->
 		</div>
 		<div class="row">
-		  <div class="col-sm-2">
+		  <div class="col-sm-1"></div>
+		  <div class="col-sm-2" style="position: relative; bottom: 16px">
 			  <ul class="nav nav-pills nav-stacked" style="font-size:14px">
-			  	<button class="list-group-item"><li class="tag_list" id="all">All</li></button>
+			  	<button class="list-group-item"><li class="tag_list" id="all">All</li></button> <!-- Important: these are buttons! -->
 			  	<button class="list-group-item"><li class="tag_list" id="admin">Administration</li></button>
 				<button class="list-group-item"><li class="tag_list" id="buildings">Buildings</li></button>
 				<button class="list-group-item"><li class="tag_list" id="community">Community</li></button>
@@ -79,7 +81,7 @@
 				<button class="list-group-item"><li class="tag_list" id="other">Other</li></button>
 			  </ul> 
 		  </div>
-		  <div class="col-sm-9">
+		  <div class="col-sm-8">
 		  	<div class='container-fluid'>
 				   {% block content %}
 				   {% endblock %}

@@ -11,6 +11,7 @@ from datetime import datetime
 import json, simplejson
 
 TAGS = ['admin','buildings','community','education','events','sustainability','health','parks','safety','sanitation','transportation','other']
+GLYPHS = ['cog','home','map-marker','education','camera','leaf','heart','tree-deciduous','lock','trash','road','']
 
 # detail view of Poll with Voices
 
@@ -41,10 +42,9 @@ def detail(request,pk):
 				voice.updown_votes = 0
 				for vt in updown_votes:
 					voice.updown_votes += vt.value
+				voice.save()
 				net_user_votes = voice.updown_votes
-				print(net_user_votes)
 				poll_num = poll.id
-				print(net_user_votes, poll_num)
 				return HttpResponse(json.dumps({"net_user_votes": net_user_votes, "user_vote": user_vote}),content_type='application/json')
 			if up_or_down == 2:
 				if primKey is None:
@@ -68,9 +68,9 @@ def detail(request,pk):
 				voice.updown_votes = 0
 				for vt in updown_votes:
 					voice.updown_votes += vt.value
+				voice.save()
 				net_user_votes = voice.updown_votes
 				poll_num = poll.id
-				print(net_user_votes, poll_num)
 				return HttpResponse(json.dumps({"net_user_votes": net_user_votes, "user_vote": user_vote}),content_type='application/json')
 		else:
 			return HttpResponse(error)
@@ -96,6 +96,7 @@ def detail(request,pk):
 			v.updown_votes = 0
 			for vt in updown_votes:
 				v.updown_votes += vt.value
+			v.save()
 
 	poll.ballots = len(votes)
 	ballots = poll.ballots
@@ -118,6 +119,7 @@ def detail(request,pk):
 			poll.result = "Very Negative"
 	else:
 		poll.result = ""
+	poll.save()
 	return render(request,'detail.html',{'poll': poll, 'voices': voices, 'message': message})
 
 # def up_vote(request,pk):
@@ -179,10 +181,15 @@ def vote(request,pk):
 	if request.user.is_authenticated():
 		current_user = request.user
 		poll = get_object_or_404(Poll,pk=pk)
+		glyph = 'glyphicon glyphicon-'
+		for index in range(len(TAGS)):
+			if poll.tag == TAGS[index]:
+				glyph += GLYPHS[index]
+		print(glyph)
 		vote_from_user = len(Vote.objects.filter(voter=current_user,question=pk))
-		page_message = 'Cast your ballot: '
+		page_message = 'Cast your Ballot'
 		if vote_from_user:
-			page_message = 'Change your ballot: '
+			page_message = 'Change your Ballot'
 		if request.method == 'POST':
 			form = VoteForm(request.POST)
 			if form.is_valid():
@@ -195,7 +202,7 @@ def vote(request,pk):
 				return HttpResponseRedirect('/polls/view/%d/' %poll.id)
 		else:
 			form = VoteForm()
-		return render(request,'vote.html',{'poll': poll, 'form': form, 'page_message': page_message})
+		return render(request,'vote.html',{'poll': poll, 'form': form, 'page_message': page_message, 'glyph': glyph})
 	else:
 		return HttpResponseRedirect('/polls/login/')
 
@@ -204,6 +211,10 @@ def voice(request,pk):
 	if request.user.is_authenticated():
 		current_user = request.user
 		poll = get_object_or_404(Poll,pk=pk)
+		glyph = 'glyphicon glyphicon-'
+		for index in range(len(TAGS)):
+			if poll.tag == TAGS[index]:
+				glyph += GLYPHS[index]
 		if request.method == 'POST':
 			form = VoiceForm(request.POST)
 			if form.is_valid():
@@ -214,7 +225,7 @@ def voice(request,pk):
 		else:
 			form = VoiceForm()
 
-		return render(request,'voice.html',{'poll': poll, 'form': form})
+		return render(request,'voice.html',{'poll': poll, 'form': form, 'glyph': glyph})
 	else:
 		return HttpResponseRedirect('/polls/login/')
 
@@ -318,7 +329,6 @@ def Profile(request,pk):
 		ballots += p.ballots
 	for v in user_voices:
 		updown_votes += v.updown_votes
-
 	num_polls = len(user_polls)
 	num_voices = len(user_voices)
 	num_votes = len(user_votes)
@@ -326,9 +336,12 @@ def Profile(request,pk):
 	if num_polls > 0:
 		avg_ballots = ballots / num_polls
 	if num_voices > 0:
+		print(updown_votes, num_voices)
 		avg_updown_votes = updown_votes / num_voices
 
-	user_score = num_polls + num_voices + avg_ballots + avg_updown_votes + num_votes
+	print(num_polls, num_voices, avg_ballots, avg_updown_votes, num_votes)
+
+	user_score = float(num_polls + num_voices + avg_ballots + avg_updown_votes + num_votes)
 
 	context = {'this_user': this_user,'user_score': user_score}
 
