@@ -7,14 +7,15 @@
 	{% for f in flags %}
 	<div class="flag_container">
 	<!--<a href="{% url 'flg:flag_detail' f.id %}" class="btn-success" style="color: black">-->
-	<div class="btn-success" sentiment={{f.sentiment}} id={{f.id}} style="color: black">
 		<div class="flag_tag" style="color:#ededed"></div>
-		<div class="flag_category" style="background: #ededed">
-		<p style="text-align: center; margin-top: 8px">{{f.tag|title}}</p>
+		<div class="flag_category">
+		<a href="{% url 'flg:flag_detail' f.id %}" class="other_btn">{{f.tag|title}}</a>
 		<div style="text-align: center;">
-		<div style="margin-left: 4px;" >
-		<span {% if f.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down" style="color: salmon; font-size:20px;" {% elif f.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up" style="color: darkseagreen; font-size:20px"{% endif %}></span>&nbsp<span {% if f.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down" style="color: salmon; font-size:20px; margin-left: 3px"{% elif f.result = "Negative" %} class="glyphicon glyphicon-thumbs-down" style="color: salmon; font-size:20px"{% elif f.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up" style="color: darkseagreen; font-size:20px; margin-left: 3px"{% elif f.result = "Positive" %} class="glyphicon glyphicon-thumbs-up" style="color: darkseagreen; font-size:20px"{% elif f.result = "Neutral" %}{% endif %}></span>&nbsp&nbsp</div></div><div class={{f.id}}></div>
-		</div></div>
+		<div class="thumbs">
+		<span {% if f.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down" style="color: salmon; font-size:20px;" {% elif f.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up" style="color: darkseagreen; font-size:20px"{% endif %}></span>&nbsp<span {% if f.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down" style="color: salmon; font-size:20px; margin-left: 3px"{% elif f.result = "Negative" %} class="glyphicon glyphicon-thumbs-down" style="color: salmon; font-size:20px"{% elif f.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up" style="color: darkseagreen; font-size:20px; margin-left: 3px"{% elif f.result = "Positive" %} class="glyphicon glyphicon-thumbs-up" style="color: darkseagreen; font-size:20px"{% elif f.result = "Neutral" %}{% endif %}></span>&nbsp&nbsp</div>
+		</div>
+		<div class={{f.id}}></div>
+		</div>
 	</div>
 	{% endfor %}
 </div>
@@ -29,7 +30,7 @@
 			Sentiment = $(this).attr("sentiment");
 			console.log(Sentiment);
 			if ($.inArray(Id,clicked) == -1) {
-				$("."+Id).html(Id);
+				$("."+Id).html(Sentiment);
 				clicked.push(Id)
 			}
 			else {

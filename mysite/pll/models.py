@@ -48,4 +48,4 @@ class UpDownVote(models.Model):
 class Constituent(models.Model):
 	user = models.OneToOneField(User)
 	def __int__(self):
-		self.user
+		return self.user

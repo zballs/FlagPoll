@@ -3,6 +3,6 @@ from django.forms import ModelForm
 from flg.models import Flag
 
 class FlagAdmin(admin.ModelAdmin):
-	exclude = ("avg_vote","result","sentiment")
+	exclude = ("avg_vote","result")
 
 admin.site.register(Flag,FlagAdmin)

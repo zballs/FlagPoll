@@ -5,29 +5,55 @@
 {% block content %}
 <div class="row">
 	<div class="col-sm-1"></div>
-	<span class="glyphicon glyphicon-user"></span>&nbsp
+	<span class="glyphicon glyphicon-user" style="margin-left: 20px"></span>&nbsp
 	<div class="shadow_header" style="display: inline-block; font-size: 19px">{{this_user.username}}</div>
-	<div style="display: inline-block; position:relative; left: 50px; font-size: 19px">PollPoints&nbsp&nbsp
-		<span class="poll_points">{{user_score}}</span></div>
+	<div style="display: inline-block; position:relative; left: 50px; font-size: 18px"><span class="shadow_header">PollPoints</span>&nbsp
+		<span class="poll_points" style="position: relative; bottom: 2px;">{{user_score}}</span></div>
 	{% if superPollster %} <span class="glyphicon glyphicon-certificate"></span><div class="shadow_header">SuperPollster</div>{% elif pollster %}<span class="glyphicon glyphicon-certificate"></span><div class="shadow_header">Pollster</div>{% endif %}
 	{% if trustedVoice %} <span class="glyphicon glyphicon-bullhorn"></span><div class="shadow_header">TrustedVoice</div>{% elif vocalContributor %} <span class="glyphicon glyphicon-bullhorn"></span><div class="shadow_header">VocalContributor</div>{% endif %}
 	{% if activeVoter %}<div class="shadow_header">ActiveVoter</div>{% endif %}
 </div><br>
 <div class="row">
 	<div class="col-sm-1"></div>
-	<div class="col-sm-5">
-		<div class="shadow_header" style="font-size: 18px">Polls</div>
+	<div class="dropdown">
+		<button class="dropbtn" id="poll">Polls</button>
 		{% for p in user_polls %}
-			<div class="list_poll">{{p|truncatechars:60}}</div>
+			<a href="{% url 'pll:detail' p.id %}" id="Polls" class="dropdown-content"><div class="dropdown-wrapper">{{p|truncatechars:60}}</div></a>
 		{% endfor %}
 	</div>
-	<div>
-		<div class="shadow_header" style="font-size: 18px">Voices</div>
+	<div class="dropdown">
+		<button class="dropbtn">Voices</button>
 		{% for v in user_voices %}
-			<div class="list_poll">{{v|truncatechars:70}}</div>
+			<a href="{% url 'pll:detail' v.question.id %}" id="Voices" class="dropdown-content"><div class="dropdown-wrapper">{{v|truncatechars:70}}</div></a>
 		{% endfor %}
 	</div>
-
 </div>
+<script type="text/javascript">
+$(function(){	
+	$(document).on("click",".dropbtn",function() {
+		var id = $(this).text();
+		var dropdowns = document.getElementsByClassName("dropdown-content");
+		var i;
+		for (i = 0; i <dropdowns.length; i++) {
+			if (id == $(dropdowns[i]).attr("id")) {
+				console.log(dropdowns[i]);
+				dropdowns[i].classList.toggle("show");
+			}
+		}
+	})
+	window.onclick = function(event) {
+		if(!event.target.matches('.dropbtn')) {
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}	
+})
 
+</script>
 {% endblock %}	
