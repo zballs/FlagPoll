@@ -5,6 +5,9 @@ from django.template import RequestContext
 from pll.models import Poll, Vote, Voice
 from flg.models import Flag
 
+from flg.agg_clust import AgglomerativeClustering
+# Import other sentiment analysis modules...
+
 # Create your views here.
 def flag(request):
 	flags = Flag.objects.all()

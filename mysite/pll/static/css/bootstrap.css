@@ -264,7 +264,7 @@ th {
 .login-register {
   -webkit-transition: 0.3s;
   position: relative;
-  left: 12px;
+  left: 60px;
   border: 2px #fff;
   border-radius: 5px 5px;
   padding-left: 54px;
@@ -1121,7 +1121,7 @@ a {
 a:hover,
 a:focus {
   color: #23527c;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:focus {
   outline: thin dotted;
@@ -1325,25 +1325,30 @@ p {
 }
 
 .voice_field {
+    width: wrap;
     -webkit-transition: 0.3s;
     margin-left: 30px;
-    margin-top: 4px;
+    margin-top: 8px;
     background-color: transparent;
-    box-shadow: 2px 2px 4px lightgray;
+    box-shadow: 1px 1px 2px lightgray;
     color: black;
     font-size: 1.32rem;
-    padding: 6px;
+    padding: 8px;
     display: inline-block;
-    float: left; 
+    float: left;
+    max-width: 70%; 
     clear: left;
-    border: 1px solid lightgray;
-    border-radius: 2px 2px 2px 2px;
-    max-width: 70%;
+    border: 1px;
+    border-radius: 2px;
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
   }
 
   .voice_field:hover {
     -webkit-transition: 0.3s;
-    box-shadow: 2px 2px 4px darkseagreen;
+    border-top: 1px solid #ededed;
+    border-left: 1px solid #ededed;
+    box-shadow: 2px 2px 2px darkseagreen;
   }
 
 .cast_ballot {
@@ -1358,13 +1363,15 @@ p {
 }
 
 .nice_submit {
+  -webkit-transition: 0.3s;
   background-color: #ededed;
   border: 2px;
   border-radius: 4px;
-  padding: 10px;
+  padding: 8px;
 }
 
 .nice_submit:hover {
+  -webkit-transition: 0.3s;
   background-color: lightgray;
 }
 
@@ -1377,38 +1384,73 @@ p {
 }
 
 .voice_opinion {
-  font-size: 1.5rem; 
-  border: 1px;
-  border-style: solid;
-  border-color: lightgray;
-  border-radius: 4px 4px;
-  padding: 3px;
-  height: 120px;
-  clear: left;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+  width: 40%;
+  height: 130px;
+  -webkit-transition: 0.3s;
+  position: relative;
+  display: inline-block; 
+  box-shadow: 1px 1px 2px lightgray;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  padding: 12px 20px
+}
+
+.voice_opinion:hover {
+  -webkit-transition: 0.3s;
+  border-top: 1px solid #ededed;
+  border-left: 1px solid #ededed;
+  box-shadow: 2px 2px 4px darkseagreen; 
 }
 
 .create_poll {
-  width: 37%;
-  height: 120px;
+  -webkit-transition: 0.3s;
+
+  width: 40%;
+  height: 100px;
   font-size: 1.5rem;
   text-indent: 2px;
-  border: .1px;
+  border: #ededed 1px solid;
   border-radius: 4px 4px;
-  border-color: gray;
   padding: 3px;
   clear: left;
+  box-shadow: 1px 1px 2px lightgray;
+}
+
+.create_poll:hover {
+  box-shadow: 2px 2px 4px darkseagreen;
+}
+
+.ballot_container {
+  vertical-align: middle;
+  -webkit-transition: 0.3s;
+  position: relative;
+  padding: 20px; 
+  display: inline-block; 
+  box-shadow: 1px 1px 2px lightgray;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  left: 160px; 
+  width: wrap; 
+  bottom: 8px;
+}
+
+.ballot_container:hover {
+  -webkit-transition: 0.3s;
+  border-top: 1px solid #ededed;
+  border-left: 1px solid #ededed;
+  box-shadow: 2px 2px 4px darkseagreen; 
 }
 
 .tag_poll {
-  width: 25%;
+  width: wrap;
+  display: inline-block;
   height: 40px;
   font-size: 1.5rem;
   text-indent: 10px;
   border: .1px;
-  border-radius: 4px 4px;
+  border-radius: 3px;
   border-color: gray;
-  padding: 3px;
+  padding: 2px;
   clear: left;
 }
 
@@ -1452,6 +1494,7 @@ p {
 .shadow_header {
   text-shadow: 1px 1px 1px lightgray;
   text-decoration: blink;
+  font-weight: lighter;
 }
 
 .flag_container {
@@ -1461,20 +1504,27 @@ p {
   margin-bottom: 160px;
 }
 
+.flag_container:hover {
+  -webkit-transition: 0.3s;
+  box-shadow: 2px 2px 4px darkseagreen;
+}
+
+
 .all_flags {
   position: relative;
   right: 80px;
 }
 
 .flag_category {
+  background: transparent;
   position: absolute;
-  padding: 8px;
-  border: transparent;
-  border-radius: 4px 4px 4px 4px;
-  width: 136px;
+  padding: 6px;
+  width: 120px;
   height: 90px;
   margin-top: 12px;
-  margin-right: 12px;
+  margin-left: 3px;
+  border-left: 2px double rgba(200,200,200,0.1);
+  box-shadow: -2px 0px 0px 0px #ededed;
   display: inline-block;
  /* background-image: 
       
@@ -1506,15 +1556,37 @@ p {
   -webkit-animation-iteration-count: infinite;*/
 }
 
-.flag_tag {
-  position: absolute;
-  border-top: 86px solid;
-  border-left: 68px solid; 
-  border-right: 68px solid; 
-  border-bottom: 36px solid transparent;
+.thumbs {
+  margin-top: 8px;
   display: inline-block;
-  margin-top: 30px;
-  border-radius: 4px;
+  width: 50%;
+  vertical-align: middle;
+}
+
+.flag_text {
+  -webkit-transition: 0.3s;
+  color: black;
+
+}
+
+.flag_text:hover {
+  -webkit-transition: 0.3s;
+  text-decoration: none;
+  text-shadow: 2px 2px 4px lightgray;
+  -webkit-font-smoothing: text antialiased;
+}
+
+.flag_tag {
+  -webkit-transition: 0.3s;
+  position: absolute;
+  border-top: 42px solid;
+  border-left: 12px solid transparent; 
+  border-right: 112px inset; 
+  border-bottom: 30px solid;
+  display: inline-block;
+  margin-top: 10px;
+  border-radius: 2px;
+  box-shadow: 5px 5px 10px #ededed;
 }
 
 @-webkit-keyframes flagwave {
@@ -3298,10 +3370,11 @@ select[multiple].input-lg {
 }
 
 .list_poll {
+  background: transparent;
   -webkit-transition: 0.3s;
   color: black;
   display: inline-block;
-  padding: 6px 6px;
+  padding: 8px 8px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -3317,9 +3390,9 @@ select[multiple].input-lg {
       -ms-user-select: none;
           user-select: none;
   background-image: none;
-  border: 1px solid transparent;
+  border: solid 1px transparent;
   border-radius: 4px;
-  box-shadow: 2px 2px 2px lightgray;
+  box-shadow: 2px 2px 2px #ededed;
 
 }
 
@@ -3327,8 +3400,13 @@ select[multiple].input-lg {
   -webkit-transition: 0.3s;
   box-shadow: 2px 2px 2px darkseagreen;
   text-decoration: none;
+  color: black;
   -webkit-font-smoothing: antialiased;
   border: solid 1px #ededed;
+}
+.list_poll:active,
+.list_poll:focus {
+  text-decoration: none;
 }
 
 .btn {
@@ -3354,6 +3432,32 @@ select[multiple].input-lg {
   border: 1px solid transparent;
   border-radius: 6px;
 }
+
+.other_btn {
+  -webkit-transition: 0.3s;
+  width:100%;
+  display:block;
+  text-align: center;
+  opacity: 0.9;
+  color: black;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: 1.42857143;
+  white-space: nowrap;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+}
+
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
@@ -3364,6 +3468,16 @@ select[multiple].input-lg {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
+.other_btn:hover,
+.other_btn:focus,
+.other_btn.focus {
+  -webkit-transition: 0.3s;
+  text-shadow: 1px 1px 2px lightgray;
+  color: darkslategray;
+  text-decoration: none;  
+  -webkit-font-smoothing: antialiased;
+}
+
 .btn:hover,
 .btn:focus,
 .btn.focus {
@@ -3417,6 +3531,87 @@ fieldset[disabled] a.btn {
   background-color: #e6e6e6;
   border-color: #adadad;
 }
+
+/* My Dropdown stuff */
+
+/* Dropdown Button */
+.dropbtn {
+    -webkit-transition: 0.3s;
+    background-color: #ededed;
+    color: black;
+    width: 100px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px lightgray;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  -webkit-transition: 0.3s;
+  text-shadow: 1px 1px 2px lightgray;
+  box-shadow: 2px 0px 4px darkseagreen, 0px 2px 4px darkseagreen, -2px 0px 4px darkseagreen, 0px -2px 4px darkseagreen;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    -webkit-transition: 0.3s;
+    position: relative;
+    display: inline-block;
+    min-height: 1px;
+    padding-right: 12px;
+    padding-left: 12px;
+    float: left;
+    width: auto;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    -webkit-transition: 0.3s;
+    margin-top: 10px;
+    padding: 4px;
+    display: none;
+    border-radius: 2px;
+    position: relative;
+    background-color: transparent;
+    color: black;
+}
+
+.dropdown-wrapper {
+  -webkit-transition: 0.3s;
+  box-shadow: 1px 1px 2px #ededed;
+  display: inline-block;
+  width: wrap;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.dropdown-wrapper:hover {
+    -webkit-transition: 0.3s;
+    box-shadow: 2px 2px 4px darkseagreen;
+    border-top: 1px solid #ededed;
+    border-left: 1px solid #ededed;
+    color: black;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+  display: block;
+  width: auto;
+}
+
 .btn-default:active:hover,
 .btn-default.active:hover,
 .open > .dropdown-toggle.btn-default:hover,
@@ -5593,6 +5788,7 @@ a.thumbnail.active {
   margin-bottom: 20px;
 }
 .list-group-item {
+  -webkit-transition: 0.1s;
   position: relative;
   display: block;
   padding: 10px 14px;
@@ -5600,21 +5796,26 @@ a.thumbnail.active {
   background-color: #fff;*/
   border: 1px;
   /* My adds */
-  -webkit-transition: 0.3s;
-  background-color: #ededed;
-  border-radius: 2px;
-  max-width: 130px;
-  max-height: 36px;
-  left:40px;
+  background-color: transparent;
+  border-right: 1px solid #ededed;
+  border-left: 1px solid #ededed;
+  border-top: 1px solid transparent;
+  box-shadow: 0px 0px 0px #ededed;
+  max-width: 132px;
+  max-height: 38px;
+  left: 40px;
 }
+
 .list-group-item:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top: 1px #ededed solid;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 .list-group-item:last-child {
+  border-bottom: 1px #ededed solid;
   margin-bottom: 0;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 a.list-group-item,
 button.list-group-item {
@@ -5633,12 +5834,20 @@ button.list-group-item:focus {
   background-color: #f5f5f5;
   */
   /* My adds */
-  -webkit-transition: 0.3s;
-  box-shadow: 2px 2px 8px darkseagreen;
-  text-shadow: 1px 1px 4px lightgray;
+  -webkit-transition: 0.1s;
+  background: #F0F0F0;
+  background-color: transparent;
+  border-right: 4px rgba(143,188,143,0.6) solid;
+  border-top: 1px #ededed solid;
+  box-shadow: 3px 3px 6px #ededed;
+  text-shadow: 1px 1px 2px lightgray;
   text-decoration: none;
-  background-color: lightgray;
+  outline: 0;
 }
+button.list-group-item:active {
+  background-color: #ededed;
+}
+
 button.list-group-item {
   width: 100%;
   text-align: left;
@@ -5667,6 +5876,7 @@ button.list-group-item {
   color: #fff;
   background-color: #337ab7;
   border-color: #337ab7;
+  outline: 0;
 }
 .list-group-item.active .list-group-item-heading,
 .list-group-item.active:hover .list-group-item-heading,

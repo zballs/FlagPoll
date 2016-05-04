@@ -1,16 +1,18 @@
 {% extends "header2.html" %}
 
+{% load myfilters %}
+
 {% block content %}
-	
-	<h5>{{poll.question}}</h5><br>
-    {% load myfilters %}
-    <form action="" method="post">
-    	{% csrf_token %}
-    		{% if form.ballot.errors %}<p class="error">{{form.ballot.errors}}</p>{% endif %}
-    		<p><label for="ballot" {% if form.ballot.errors %} class="error" {% endif %}> {{page_message}} </label></p>
-    		<p>{{form.ballot|addclass:'cast_ballot'}}</p>
-    	<p><input type="submit" class="nice_submit" /></p>
-    </form>
+    <h4 class="shadow_header" style="position: relative; left: 140px">{{page_message}}</h4><br>
+    <div class="ballot_container">
+            <form action="" method="post">
+            	{% csrf_token %}
+            		{% if form.ballot.errors %}<p class="error">{{form.ballot.errors}}</p>{% endif %}
+            		<span class="{{glyph}}" style="position: relative; font-size: 16px;"></span>&nbsp&nbsp
+                    <label for="ballot" {% if form.ballot.errors %} class="error" {% endif %} class="shadow_header" style="font-size: 14px; margin-bottom: 20px;">{{poll.question}}</label>
+            		<p>{{form.ballot|addclass:'cast_ballot'}}<input type="submit" class="nice_submit" style="position: relative; left: 20px" /></p>
+            </form>
+    </div>
     <script type="text/javascript">
     $(function() {
         document.getElementById("polls").style.color = "darkseagreen";
