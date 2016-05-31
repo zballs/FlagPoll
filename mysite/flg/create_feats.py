@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import nltk
 import csv
 from nltk.util import bigrams, trigrams 
@@ -6,7 +8,7 @@ from nltk.stem import WordNetLemmatizer # Add Lemmatizer!!!
 import pickle
 
 # Open 'item_list' containing yelp reviews
-with open("C:/Users/Zachary/Desktop/FlagPoll/mysite/yelp/yelp_review/items.csv") as file:
+with open("items.csv") as file:
     reader = csv.reader(file)
     item_list = list(reader)
 item_list = item_list[1:]
@@ -75,19 +77,37 @@ save_all_feats = open("all_feats.pickle","wb")
 pickle.dump(all_feats,save_all_feats)
 save_all_feats.close()
 
-
+# Freq feature set instead of presence feature set
+# Should I lemmatize words before checking if in word feats??
 def find_feats(review):
     words = word_tokenize(str(review))
     bgrams = bigrams(words)
     feats = []
-    for w in word_feats:
-        feats.append(w in words)
-    for b in bigram_feats:
-        feats.append(b in bgrams)
+    for wf in word_feats:
+        freq = 0
+        for w in words:
+            wlemma = lemmatizer.lemmatize(w).lower()
+            if wlemma == wf:
+                freq += 1
+        feats.append(float(freq)/float(len(words))) 
+    for bf in bigram_feats:
+        freq = 0
+        for b in bgrams:
+            wlemma0 = lemmatizer.lemmatize(word_tokenize(b[0])[0]).lower()
+            wlemma1 = lemmatizer.lemmatize(word_tokenize(b[1])[0]).lower()
+            lemmatuple = []
+            lemmatuple.append(str(wlemma0))
+            lemmatuple.append(str(wlemma1))
+            blemma = bigrams(lemmatuple)
+            for _b in blemma:
+                if _b == bf:
+                    freq += 1
+        feats.append(float(freq)/float(len(words)))
     return feats
 
 # Create feature sets
 featsets = [find_feats(item) for item in item_list]
+
 
 # Save feature sets
 save_featsets = open("featsets.pickle","wb")

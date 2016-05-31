@@ -3,16 +3,21 @@
 {% block content %}
 
     {% load myfilters %}
-    <h4 class="shadow_header" style="position: relative; margin-bottom: 30px; left: 120px"><span class="{{glyph}}" style="position: relative; font-size: 16px;"></span>&nbsp&nbsp{{poll.question}}</h4>
-    <div style="position: relative; left: 130px">
-        <form action="" method="post">
-            {% csrf_token %}
-                <div>
-                    {% if form.opinion.errors %}<p class="error">{{form.opinion.errors}}</p>{% endif %}
-                    <p>{{form.opinion|placeholder:'Voice your opinion!'|addclass:'voice_opinion'}}</p>
-                </div>
-            <p><input type="submit" class="nice_submit" /></p>
-        </form>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6">
+            <div class="shadow_header" style="position: relative; margin-bottom: 20px; font-size: 15px"><span class="{{glyph}}" style="position: relative; font-size: 15px;"></span>&nbsp&nbsp{{poll.question}}</div>
+            <div style="position: relative;">
+                <form action="" method="post">
+                    {% csrf_token %}
+                        <div>
+                            {% if form.opinion.errors %}<p class="error">{{form.opinion.errors}}</p>{% endif %}
+                            <p>{{form.opinion|placeholder:'Voice your opinion!'|addclass:'voice_opinion'}}</p>
+                        </div>
+                    <p><input type="submit" class="nice_submit" /></p>
+                </form>
+            </div>
+        </div>
     </div>
     <script type="text/javascript">
     $(function() {

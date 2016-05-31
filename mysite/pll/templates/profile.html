@@ -1,10 +1,11 @@
 {% extends "header2.html" %}
 
 {% load static %}
+{% load myfilters %}
 
 {% block content %}
 <div class="row">
-	<div class="col-sm-1"></div>
+	<div class="col-sm-3"></div>
 	<span class="glyphicon glyphicon-user" style="margin-left: 20px"></span>&nbsp
 	<div class="shadow_header" style="display: inline-block; font-size: 19px">{{this_user.username}}</div>
 	<div style="display: inline-block; position:relative; left: 50px; font-size: 18px"><span class="shadow_header">PollPoints</span>&nbsp
@@ -14,17 +15,17 @@
 	{% if activeVoter %}<div class="shadow_header">ActiveVoter</div>{% endif %}
 </div><br>
 <div class="row">
-	<div class="col-sm-1"></div>
+	<div class="col-sm-3"></div>
 	<div class="dropdown">
 		<button class="dropbtn" id="poll">Polls</button>
-		{% for p in user_polls %}
-			<a href="{% url 'pll:detail' p.id %}" id="Polls" class="dropdown-content"><div class="dropdown-wrapper">{{p|truncatechars:60}}</div></a>
+		{% for p, glyph in polls_glyphs %}
+			<a href="{% url 'pll:detail' p.id %}" id="Polls" class="dropdown-content"><div class="dropdown-wrapper">&nbsp<span class="{{glyph}}"></span>&nbsp&nbsp{{p|truncatechars:60}}</div></a><small><div id="Polls" class="dropdown-content" style="margin-left: 6px; margin-top:-6px"><small><span {% if p.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif p.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up"{% endif %}></span> <span {% if p.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif p.result = "Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif p.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up"{% elif p.result = "Positive" %} class="glyphicon glyphicon-thumbs-up"{% elif p.result = "Neutral" %} class="glyphicon glyphicon-question-sign"{% endif %}></span>&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-list-alt"></span>&nbsp{{p.ballots}}&nbspballots&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-calendar"></span>&nbsp{{p.pub_date|date:"D, N, j"}}</small></div>
 		{% endfor %}
 	</div>
 	<div class="dropdown">
 		<button class="dropbtn">Voices</button>
-		{% for v in user_voices %}
-			<a href="{% url 'pll:detail' v.question.id %}" id="Voices" class="dropdown-content"><div class="dropdown-wrapper">{{v|truncatechars:70}}</div></a>
+		{% for v, upd in voices_updown %}
+			<a href="{% url 'pll:detail' v.question.id %}" id="Voices" class="dropdown-content"><div class="dropdown-wrapper">{{v.opinion|truncatechars:70}}</div></a><small><div id="Voices" class="dropdown-content" style="margin-left: 6px; margin-top:-8px"><span {% if upd %} class="{{upd}}" {% endif %}></span>&nbsp{{v.updown_votes}}&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-calendar"></span>&nbsp{{v.pub_date|timesince|shortTimeSince}}&nbspago</small></div>
 		{% endfor %}
 	</div>
 </div>

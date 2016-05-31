@@ -12,3 +12,7 @@ def placeholder(field, args=None):
 		return field
 	field.field.widget.attrs.update({"placeholder": args })
 	return field
+
+@register.filter(name='shortTimeSince')
+def shortTimeSince(value):
+	return value.partition(",")[0]

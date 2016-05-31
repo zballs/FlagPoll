@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
+
 import random
 import pickle
 import nltk
-from flg.agg_clust import AgglomerativeClustering
+import create_feats # run featureset creation 
+from operator import add, truediv
+from agg_clust import AgglomerativeClustering
 
 # Retrieve feature sets
 FeatSets = open("featsets.pickle","rb")
@@ -17,39 +21,57 @@ AllFeats.close()
 random.shuffle(featsets)
 
 # Implement clustering, get cluster id values
-clust = AgglomerativeClustering(featsets, 6)
+clust, spread = AgglomerativeClustering(featsets, 6)
 
 # Variable containing unique cluster id values
 clust_ids = set(clust)
 
-# Initialize empty cluster features dictionary
-clust_feats = {}
+# Initialize feature frequencies, scores, and labels dictionaries
+all_freqs = {}
+total_freq = [0 for feat in all_feats]
+score_sets = {}
+labels = {}
+threshold = 0.5 # higher number for more selective label assignment
 
-# Iterate through cluster groups to get 'True' features
+# Iterate through cluster groups to determine appropriate labels
 for c in clust_ids:
-	true_feats = []
+	freq = [0 for feat in all_feats]
+
 	for index in range(len(clust)):
 		if c == clust[index]:
-			this_featset = featsets[index]
-			for ID in range(len(all_feats)):
-				if this_featset[ID]:
-					true_feats.append(all_feats[ID])
+			# Calculate feature frequencies by cluster
+			freq += list(map(add,featsets[index],freq))
+	# Store in all freqs dict
+	all_freqs[c] = freq
 
-	# Create frequency distribution of 'True' features
-	true_feats = nltk.FreqDist(true_feats)
+	# Calculate total feature frequencies
+	total_freq += list(map(add,total_freq,freq))
 
-	# Add frequency distribution to cluster features dictionary
-	clust_feats[c] = true_feats
+# Calculate feature scores by cluster (fraction of total feature freqs)
+for c in clust_ids:
+	freq = all_freqs[c]
+	score_sets[c] = list(map(truediv,freq,total_freq))
+
+for c in clust_ids:
+	score_set = score_sets[c]
+	for index in range(len(score_set)):
+		# If feature score is over threshold, add to cluster labels 
+		if score_set[index] > threshold:
+			if len(labels[c]) > 0:
+				labels[c].append(all_feats[index])
+			else:
+				labels[c] = all_feats[index]
+
 
 # Save clustering
 save_clust = open("clust.pickle","wb")
 pickle.dump(clust, save_clust)
 save_clust.close()
 
-# Save cluster features
-save_clust_feats = open("clust_feats.pickle","wb")
-pickle.dump(clust_feats, save_clust_feats)
-save_clust_feats.close()
+# Save cluster labels
+save_labels = open("labels.pickle","wb")
+pickle.dump(labels, save_labels)
+save_labels.close()
 
 # Save feature sets to preserve ordering
 save_featsets = open("featsets.pickle","wb")

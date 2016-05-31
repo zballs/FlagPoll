@@ -11,7 +11,7 @@ from datetime import datetime
 import json, simplejson
 
 TAGS = ['admin','buildings','community','education','events','sustainability','health','parks','safety','sanitation','transportation','other']
-GLYPHS = ['cog','home','map-marker','education','camera','leaf','heart','tree-deciduous','lock','trash','road','']
+GLYPHS = ['cog','home','map-marker','education','camera','leaf','heart','tree-deciduous','lock','trash','road',None]
 
 # detail view of Poll with Voices
 
@@ -85,6 +85,8 @@ def detail(request,pk):
 	votes = Vote.objects.filter(question=pk)
 	voices = Voice.objects.filter(question=pk).order_by('-pub_date')[:10]
 
+	glyph = 'glyphicon glyphicon-' + GLYPHS[TAGS.index(poll.tag)]
+
 	for v in voices:
 		if request.user.is_authenticated():
 			there_are_updown_votes = len(UpDownVote.objects.filter(voice=v.id,voter=current_user))
@@ -120,7 +122,7 @@ def detail(request,pk):
 	else:
 		poll.result = ""
 	poll.save()
-	return render(request,'detail.html',{'poll': poll, 'voices': voices, 'message': message})
+	return render(request,'detail.html',{'poll': poll, 'voices': voices, 'message': message, 'glyph': glyph})
 
 # def up_vote(request,pk):
 # 	if request.user.is_authenticated():
@@ -250,18 +252,22 @@ def tag(request):
 		if tagname == "all":
 			return HttepResponse(error)
 		polls_with_tag = Poll.objects.filter(tag=tagname).order_by('ballots')
+		print(polls_with_tag)
 		if len(polls_with_tag) == 0:
 			return HttpResponse(error)
 		else:
 			other_tags = [T for T in TAGS if T != tagname]
-			print(other_tags)
-			return HttpResponse(json.dumps({"tagname": tagname, "other_tags": other_tags}), content_type='application/json')
+			other_glyphs = []
+			for t in other_tags:
+				other_glyphs.append(GLYPHS[TAGS.index(t)])
+			glyph = GLYPHS[TAGS.index(tagname)]
+			return HttpResponse(json.dumps({"glyph": glyph, "other_glyphs": other_glyphs}), content_type='application/json')
 	else:
 		all_polls = {}
 		for T in TAGS:
 			polls_of_type = Poll.objects.filter(tag=T).order_by('ballots')
 			if len(polls_of_type) > 0:
-				all_polls[T] = polls_of_type
+				all_polls[GLYPHS[TAGS.index(T)]] = polls_of_type
 		all_polls = all_polls.items()
 		return render(request,'list.html',{'all_polls': all_polls})
 
@@ -319,6 +325,21 @@ def Profile(request,pk):
 	user_voices = Voice.objects.filter(author=pk).order_by('updown_votes')
 	user_votes = Vote.objects.filter(voter=pk)
 
+	polls_glyphs = {}
+	for p in user_polls:
+		polls_glyphs[p] = 'glyphicon glyphicon-' + GLYPHS[TAGS.index(p.tag)]
+	polls_glyphs = polls_glyphs.items()
+
+	voices_updown = {}
+	for v in user_voices:
+		if v.updown_votes > 0:
+			voices_updown[v] = 'glyphicon glyphicon-chevron-up'
+		elif v.updown_votes < 0:
+			voices_updown[v] = 'glyphicon glyphicon-chevron-down'
+		else:
+			voices_updown[v] = None
+	voices_updown = voices_updown.items()
+
 	ballots = 0
 	avg_ballots = 0
 
@@ -346,9 +367,9 @@ def Profile(request,pk):
 	context = {'this_user': this_user,'user_score': user_score}
 
 	if num_polls > 0:
-		context.update({'user_polls': user_polls})
+		context.update({'user_polls': user_polls, 'polls_glyphs': polls_glyphs})
 	if num_voices > 0:
-		context.update({'user_voices': user_voices})
+		context.update({'user_voices': user_voices, 'voices_updown': voices_updown})
 
 	pollster = False
 	superPollster = False

@@ -12,17 +12,23 @@ GOVT_AGENCIES = ['thomas-jefferson-memorial-washington',
                  'space-needle-seattle',
                  'vizcaya-museum-and-gardens-miami-3',
                  'los-angeles-public-library-los-angeles-3',
-                 'williams-waterwall-houston',
                  'project-row-houses-houston',
                  'motor-vehicle-division-tag-office-atlanta',
                  'city-hall-san-francisco',
                  'hart-plaza-detroit-2',
                  'baltimore-harbor-tunnel-baltimore-2',
                  'independence-hall-philadelphia',
-                 'the-metro-kansas-city']
+                 'the-metro-kansas-city',
+                 'civic-space-park-phoenix',
+                 'city-of-new-orleans-new-orleans-2',
+                 'metropolitan-government-of-nashville-and-davidson-county-nashville-163',
+                 'city-of-cleveland-cleveland-2',
+                 'southern-nevada-health-district-las-vegas-6',
+                 'glenarm-recreation-center-denver'
+                 ]
 
 def PageLinks(self, response):
-    reviewsPerPage = 40
+    reviewsPerPage = 10
     sel = Selector(response)
     totalReviews = int(sel.xpath('//div[@class="rating-info clearfix"]//span[@itemprop="reviewCount"]/text()').extract()[0].strip().split(' ')[0])
     pages = [Request(url=response.url + '?start=' + str(reviewsPerPage*(n+1)), callback=self.parse) for n in range(totalReviews/reviewsPerPage)]
