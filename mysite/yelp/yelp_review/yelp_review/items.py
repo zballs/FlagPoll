@@ -9,4 +9,5 @@ from scrapy.item import Item, Field
 
 
 class YelpReviewItem(Item):
-    review = Field()
+	rating = Field()
+	review = Field()

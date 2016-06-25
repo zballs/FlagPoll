@@ -5,7 +5,6 @@ import pickle
 import nltk
 import create_feats # run featureset creation 
 from operator import add, truediv
-from agg_clust import AgglomerativeClustering
 
 # Retrieve feature sets
 FeatSets = open("featsets.pickle","rb")
@@ -21,7 +20,9 @@ AllFeats.close()
 random.shuffle(featsets)
 
 # Implement clustering, get cluster id values
-clust, spread = AgglomerativeClustering(featsets, 6)
+clust, total_spread = MyClustering(featsets, 6)
+clust, total_spread = AgglomerativeClustering(featsets, 6)
+
 
 # Variable containing unique cluster id values
 clust_ids = set(clust)
@@ -57,10 +58,9 @@ for c in clust_ids:
 	for index in range(len(score_set)):
 		# If feature score is over threshold, add to cluster labels 
 		if score_set[index] > threshold:
-			if len(labels[c]) > 0:
-				labels[c].append(all_feats[index])
-			else:
-				labels[c] = all_feats[index]
+			if not labels[c]:
+				labels[c] = []
+			labels[c].append(all_feats[index])
 
 
 # Save clustering

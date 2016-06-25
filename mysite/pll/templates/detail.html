@@ -12,6 +12,7 @@
 	<div class="col-sm-2"></div>
 	<div style="font-size: 15px"><span {% if poll.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif poll.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up"{% endif %}></span> <span {% if poll.result = "Very Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif poll.result = "Negative" %} class="glyphicon glyphicon-thumbs-down"{% elif poll.result = "Very Positive" %} class="glyphicon glyphicon-thumbs-up"{% elif poll.result = "Positive" %} class="glyphicon glyphicon-thumbs-up"{% elif poll.result = "Neutral" %} class="glyphicon glyphicon-question-sign"{% endif %}></span>&nbsp&nbsp&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-list-alt"></span>&nbsp&nbsp{{poll.ballots}}&nbsp{% if poll.ballots = 1 %}ballot{% else %}ballots{% endif %}&nbsp&nbsp&nbsp&nbsp&nbsp{% if message = "Voted" %}<span class="glyphicon glyphicon-check"></span>&nbsp<a href="{% url 'pll:vote' poll.id %}" class="btn" style="margin-top:-4px;margin-left: -4px">{{message}}</a>{% else %}<span class="glyphicon glyphicon-edit" ></span><a href="{% url 'pll:vote' poll.id %}" class="btn">Vote</a>{% endif %}&nbsp&nbsp&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-bullhorn"></span><a href="{% url 'pll:voice' poll.id %}" class="btn" style="margin-top:-4px; margin-left: -1px">Voice</a></div>
 </div>
+<hr style="margin-top: -1px">
 	<div>
 		{% for v in voices %}
 		<div class="row">
